@@ -3,7 +3,8 @@
 This repo contains exercises for the Full Stack Open 2021 course with Open University: [Full Stack Open Course](https://fullstackopen.com/en/)
 
 As stated on the course description:
-"This course serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js."
+
+> "This course serves as an introduction to modern web application development with JavaScript. The main focus is on building single page applications with ReactJS that use REST APIs built with Node.js."
 
 ## Getting Started
 
