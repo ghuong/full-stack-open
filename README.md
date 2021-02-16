@@ -26,7 +26,7 @@ brew install node
 
 ## License
 
-This project is licensed under [Creative Commons](https://creativecommons.org/licenses/by-nc-sa/3.0/), which means that you are free to use and distribute the material, as long as the names of the original authors are not removed. If you make changes to the material and want to distribute the modified version, it must be licensed under the same license. Using the material for commercial purposes is forbidden without permission.
+This project is licensed under Creative Commons Zero v1.0 Universal License - see [LICENSE](https://github.com/ghuong/full-stack-open/blob/main/LICENSE).
 
 ## Acknowledgments
 
