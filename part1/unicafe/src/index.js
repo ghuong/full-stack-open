@@ -14,27 +14,31 @@ const Feedback = ({ handleGoodVote, handleNeutralVote, handleBadVote }) => {
 
 const Statistics = ({ numGoodVotes, numNeutralVotes, numBadVotes }) => {
   const numVotes = numGoodVotes + numNeutralVotes + numBadVotes;
-  let averageScoreElement;
-  let positivePercentageElement;
+  const statsHeader = <h2>Statistics:</h2>;
 
   if (numVotes > 0) {
     const averageScore = (numGoodVotes - numBadVotes) / numVotes;
     const positivePercentage = (numGoodVotes / numVotes) * 100;
-    averageScoreElement = <p>average: {averageScore}</p>;
-    positivePercentageElement = <p>positive: {positivePercentage}%</p>;
-  }
 
-  return (
-    <div>
-      <h2>Statistics:</h2>
-      <p>good: {numGoodVotes}</p>
-      <p>neutral: {numNeutralVotes}</p>
-      <p>bad: {numBadVotes}</p>
-      <p>all: {numVotes}</p>
-      {averageScoreElement}
-      {positivePercentageElement}
-    </div>
-  );
+    return (
+      <div>
+        {statsHeader}
+        <p>good: {numGoodVotes}</p>
+        <p>neutral: {numNeutralVotes}</p>
+        <p>bad: {numBadVotes}</p>
+        <p>all: {numVotes}</p>
+        <p>average: {averageScore}</p>
+        <p>positive: {positivePercentage}%</p>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        {statsHeader}
+        <p>No feedback given.</p>
+      </div>
+    );
+  }
 };
 
 const Button = ({ handleClick, text }) => (
