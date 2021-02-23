@@ -43,10 +43,10 @@ const App = (props) => {
     setVotes(newVotes);
   };
 
-  const mostVotesIdx = votes.reduce((maxIdx, item, idx, arr) => {
-    if (item > arr[maxIdx]) return idx;
-    return maxIdx;
-  }, 0);
+  const mostVotesIdx = votes.reduce(
+    (maxIdx, item, idx, arr) => (item > arr[maxIdx] ? idx : maxIdx),
+    0
+  );
   const mostVotedAnecdote = props.anecdotes[mostVotesIdx];
 
   return (
