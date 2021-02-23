@@ -23,12 +23,16 @@ const Statistics = ({ numGoodVotes, numNeutralVotes, numBadVotes }) => {
     return (
       <div>
         {statsHeader}
-        <Statistic name="Good" value={numGoodVotes} />
-        <Statistic name="Neutral" value={numNeutralVotes} />
-        <Statistic name="Bad" value={numBadVotes} />
-        <Statistic name="All" value={numVotes} />
-        <Statistic name="Average" value={averageScore} />
-        <Statistic name="Positive" value={positivePercentage} />
+        <table>
+          <tbody>
+            <Statistic name="Good" value={numGoodVotes} />
+            <Statistic name="Neutral" value={numNeutralVotes} />
+            <Statistic name="Bad" value={numBadVotes} />
+            <Statistic name="All" value={numVotes} />
+            <Statistic name="Average" value={averageScore} />
+            <Statistic name="Positive" value={positivePercentage} />
+          </tbody>
+        </table>
       </div>
     );
   } else {
@@ -42,9 +46,10 @@ const Statistics = ({ numGoodVotes, numNeutralVotes, numBadVotes }) => {
 };
 
 const Statistic = ({ name, value }) => (
-  <p>
-    {name}: {value}
-  </p>
+  <tr>
+    <td>{name}</td>
+    <td>{value}</td>
+  </tr>
 );
 
 const Button = ({ handleClick, text }) => (
