@@ -43,12 +43,23 @@ const App = (props) => {
     setVotes(newVotes);
   };
 
+  const mostVotesIdx = votes.reduce((maxIdx, item, idx, arr) => {
+    if (item > arr[maxIdx]) return idx;
+    return maxIdx;
+  }, 0);
+  const mostVotedAnecdote = props.anecdotes[mostVotesIdx];
+
   return (
     <>
-      <div>{props.anecdotes[selected]}</div>
-      <div>has {votes[selected]} votes</div>
-      <Button handleClick={handleVote} text="vote" />
-      <Button handleClick={handleNext} text="next anecdote" />
+      <h2>Anecdote of the day</h2>
+      <p>{props.anecdotes[selected]}</p>
+      <p>Has {votes[selected]} votes</p>
+      <Button handleClick={handleVote} text="Vote" />
+      <Button handleClick={handleNext} text="Next Anecdote" />
+
+      <h2>Anecdote with most votes</h2>
+      <p>{mostVotedAnecdote}</p>
+      <p>Has {votes[mostVotesIdx]} votes</p>
     </>
   );
 };
