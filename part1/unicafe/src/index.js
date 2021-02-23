@@ -5,9 +5,9 @@ const Feedback = ({ handleGoodVote, handleNeutralVote, handleBadVote }) => {
   return (
     <div>
       <h2>Give Feedback</h2>
-      <Button handleClick={handleGoodVote} text="good" />
-      <Button handleClick={handleNeutralVote} text="neutral" />
-      <Button handleClick={handleBadVote} text="bad" />
+      <Button handleClick={handleGoodVote} text="Good" />
+      <Button handleClick={handleNeutralVote} text="Neutral" />
+      <Button handleClick={handleBadVote} text="Bad" />
     </div>
   );
 };
@@ -23,12 +23,12 @@ const Statistics = ({ numGoodVotes, numNeutralVotes, numBadVotes }) => {
     return (
       <div>
         {statsHeader}
-        <p>good: {numGoodVotes}</p>
-        <p>neutral: {numNeutralVotes}</p>
-        <p>bad: {numBadVotes}</p>
-        <p>all: {numVotes}</p>
-        <p>average: {averageScore}</p>
-        <p>positive: {positivePercentage}%</p>
+        <Statistic name="Good" value={numGoodVotes} />
+        <Statistic name="Neutral" value={numNeutralVotes} />
+        <Statistic name="Bad" value={numBadVotes} />
+        <Statistic name="All" value={numVotes} />
+        <Statistic name="Average" value={averageScore} />
+        <Statistic name="Positive" value={positivePercentage} />
       </div>
     );
   } else {
@@ -40,6 +40,12 @@ const Statistics = ({ numGoodVotes, numNeutralVotes, numBadVotes }) => {
     );
   }
 };
+
+const Statistic = ({ name, value }) => (
+  <p>
+    {name}: {value}
+  </p>
+);
 
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
