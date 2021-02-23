@@ -3,21 +3,26 @@ import ReactDOM from "react-dom";
 
 /**
  * * randomInteger
- * Returns a random integer in range [min, max), if two args provided;
- * If one arg, range is [0, max); if no args: range is [0, 1]
+ * Returns a random integer in range [a, b), if both args provided;
+ * If one arg, range is [0, a); if no args: range is [0, 1]
  */
 function randomInteger(a, b) {
-  let min = a;
-  let max = b - a;
-  if (b === undefined) {
+  let min, max;
+
+  if (!arguments.length) {
+    min = 0;
+    max = 2;
+  } else if (arguments.length === 1) {
     min = 0;
     max = a;
+  } else {
+    min = a;
+    max = b - a;
   }
+  min = Math.ceil(min);
+  max = Math.floor(max);
 
-  if (a === undefined) {
-    max = 2;
-  }
-  return Math.floor(Math.random() * Math.floor(max)) + Math.ceil(min);
+  return Math.floor(Math.random() * max) + min;
 }
 
 const Button = ({ handleClick, text }) => (
@@ -28,13 +33,22 @@ const App = (props) => {
   const [selected, setSelected] = useState(
     randomInteger(props.anecdotes.length)
   );
+  const [votes, setVotes] = useState(Array(props.anecdotes.length).fill(0));
 
   const handleNext = () => setSelected(randomInteger(props.anecdotes.length));
+
+  const handleVote = () => {
+    const newVotes = [...votes];
+    newVotes[selected]++;
+    setVotes(newVotes);
+  };
 
   return (
     <>
       <div>{props.anecdotes[selected]}</div>
-      <Button handleClick={handleNext} text="next" />
+      <div>has {votes[selected]} votes</div>
+      <Button handleClick={handleVote} text="vote" />
+      <Button handleClick={handleNext} text="next anecdote" />
     </>
   );
 };
