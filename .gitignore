@@ -2,7 +2,7 @@
 # Source: https://github.com/nrwl/full-stack-react-example-app/blob/master/.gitignore
 
 # example apps following along with course content
-part1/exampleapp/*
+part[0-9]*/exampleapp*/
 
 # compiled output
 /dist
