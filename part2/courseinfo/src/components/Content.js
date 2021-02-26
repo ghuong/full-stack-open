@@ -2,13 +2,11 @@ import React from "react";
 import Part from "./Part";
 
 const Content = ({ course }) => {
-  return (
-    <div>
-      <Part part={course.parts[0]} />
-      <Part part={course.parts[1]} />
-      <Part part={course.parts[2]} />
-    </div>
+  const parts = course.parts.map((part) =>
+    <Part part={part} key={part.id} />
   );
+
+  return <div>{parts}</div>;
 };
 
 export default Content;
