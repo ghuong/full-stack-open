@@ -11,9 +11,13 @@ const App = () => {
     const newPerson = {
       name: newName,
     };
-    const newPersons = persons.concat(newPerson);
 
-    setPersons(newPersons);
+    if (persons.find(p => p.name === newName)) {
+      // person already exists
+      alert(`${newName} is already added to the phonebook.`);
+    } else {
+      setPersons(persons.concat(newPerson));
+    }
     setNewName("");
   };
 
@@ -32,9 +36,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map((person) => 
+        {persons.map((person) => (
           <Person person={person} key={person.name} />
-        )}
+        ))}
       </ul>
     </div>
   );
