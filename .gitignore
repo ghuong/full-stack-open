@@ -4,6 +4,9 @@
 # example apps following along with course content
 part[0-9]*/exampleapp*/
 
+# dev environment-specific
+.env
+
 # compiled output
 /dist
 /tmp
