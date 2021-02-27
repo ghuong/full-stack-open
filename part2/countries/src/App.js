@@ -29,7 +29,7 @@ const App = () => {
 
   return (
     <div>
-      <h2>Countries Information</h2>
+      <h1>Country Database</h1>
       <Filter
         filter={filter}
         handleFilterChange={handleFilterChange}
