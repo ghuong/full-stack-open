@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import personService from "./services/persons";
 
 const App = () => {
@@ -9,12 +10,18 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [successMessage, setSuccessMessage] = useState("success message test");
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
       setPersons(initialPersons);
     });
   }, []);
+
+  const displaySuccessMessage = (message, duration = 5000) => {
+    setSuccessMessage(message);
+    setTimeout(() => setSuccessMessage(null), duration);
+  }
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -35,6 +42,7 @@ const App = () => {
           `${newName} is already added to the phonebook, replace the old number with a new one?`
         )
       ) {
+        // update number
         personService
           .update(duplicatePerson.id, newPerson)
           .then((updatedPerson) => {
@@ -43,11 +51,13 @@ const App = () => {
                 person.id !== updatedPerson.id ? person : updatedPerson
               )
             );
+            displaySuccessMessage(`Updated ${updatedPerson.name}'s number`);
           });
       }
     } else {
       personService.create(newPerson).then((addedPerson) => {
         setPersons(persons.concat(addedPerson));
+        displaySuccessMessage(`Added ${addedPerson.name}`);
       });
     }
 
@@ -59,6 +69,7 @@ const App = () => {
     if (window.confirm(`Delete ${personToDelete.name} ?`)) {
       personService.remove(personToDelete.id).then((response) => {
         setPersons(persons.filter((p) => p.id !== personToDelete.id));
+        displaySuccessMessage(`Deleted ${personToDelete.name}`)
       });
     }
   };
@@ -74,6 +85,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={successMessage} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <PersonForm
         handleAddPerson={addPerson}
