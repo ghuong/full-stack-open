@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [successMessage, setSuccessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     personService.getAll().then((initialPersons) => {
@@ -18,10 +19,14 @@ const App = () => {
     });
   }, []);
 
-  const displaySuccessMessage = (message, duration = 5000) => {
-    setSuccessMessage(message);
-    setTimeout(() => setSuccessMessage(null), duration);
-  }
+  const flashMessage = (message, isError = false, duration = 5000) => {
+    const setMessageHelper = (messageSetter) => {
+      messageSetter(message);
+      setTimeout(() => messageSetter(null), duration);
+    };
+
+    setMessageHelper(isError ? setErrorMessage : setSuccessMessage);
+  };
 
   const addPerson = (event) => {
     event.preventDefault();
@@ -37,6 +42,7 @@ const App = () => {
 
     if (duplicatePerson) {
       // person already exists
+      // ask to confirm updating number
       if (
         window.confirm(
           `${newName} is already added to the phonebook, replace the old number with a new one?`
@@ -51,13 +57,20 @@ const App = () => {
                 person.id !== updatedPerson.id ? person : updatedPerson
               )
             );
-            displaySuccessMessage(`Updated ${updatedPerson.name}'s number`);
+            flashMessage(`Updated ${updatedPerson.name}'s number`);
+          })
+          .catch((error) => {
+            flashMessage(
+              `Information of ${duplicatePerson.name} has already been removed from server`,
+              true
+            );
+            setPersons(persons.filter((p) => p.id !== duplicatePerson.id));
           });
       }
     } else {
       personService.create(newPerson).then((addedPerson) => {
         setPersons(persons.concat(addedPerson));
-        displaySuccessMessage(`Added ${addedPerson.name}`);
+        flashMessage(`Added ${addedPerson.name}`);
       });
     }
 
@@ -69,7 +82,7 @@ const App = () => {
     if (window.confirm(`Delete ${personToDelete.name} ?`)) {
       personService.remove(personToDelete.id).then((response) => {
         setPersons(persons.filter((p) => p.id !== personToDelete.id));
-        displaySuccessMessage(`Deleted ${personToDelete.name}`)
+        flashMessage(`Deleted ${personToDelete.name}`);
       });
     }
   };
@@ -86,6 +99,7 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Notification message={successMessage} />
+      <Notification message={errorMessage} isError={true} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <PersonForm
         handleAddPerson={addPerson}
