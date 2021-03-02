@@ -37,6 +37,14 @@ const App = () => {
     setNewNumber("");
   };
 
+  const deletePerson = (personToDelete) => {
+    if (window.confirm(`Delete ${personToDelete.name} ?`)) {
+      personService.remove(personToDelete.id).then((response) => {
+        setPersons(persons.filter(p => p.id !== personToDelete.id));
+      });
+    }
+  };
+
   const handleNameChange = (event) => setNewName(event.target.value);
   const handleNumberChange = (event) => setNewNumber(event.target.value);
   const handleFilterChange = (event) => setFilter(event.target.value);
@@ -56,7 +64,10 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
       />
-      <Persons persons={filteredPersons} />
+      <Persons 
+        persons={filteredPersons} 
+        handleDeletePerson={deletePerson}
+      />
     </div>
   );
 };
