@@ -24,9 +24,27 @@ const App = () => {
       number: newNumber,
     };
 
-    if (persons.find((p) => p.name.toLowerCase() === newName.toLowerCase())) {
+    const duplicatePerson = persons.find(
+      (p) => p.name.toLowerCase() === newName.toLowerCase()
+    );
+
+    if (duplicatePerson) {
       // person already exists
-      alert(`${newName} is already added to the phonebook.`);
+      if (
+        window.confirm(
+          `${newName} is already added to the phonebook, replace the old number with a new one?`
+        )
+      ) {
+        personService
+          .update(duplicatePerson.id, newPerson)
+          .then((updatedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== updatedPerson.id ? person : updatedPerson
+              )
+            );
+          });
+      }
     } else {
       personService.create(newPerson).then((addedPerson) => {
         setPersons(persons.concat(addedPerson));
@@ -40,7 +58,7 @@ const App = () => {
   const deletePerson = (personToDelete) => {
     if (window.confirm(`Delete ${personToDelete.name} ?`)) {
       personService.remove(personToDelete.id).then((response) => {
-        setPersons(persons.filter(p => p.id !== personToDelete.id));
+        setPersons(persons.filter((p) => p.id !== personToDelete.id));
       });
     }
   };
@@ -64,10 +82,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
       />
-      <Persons 
-        persons={filteredPersons} 
-        handleDeletePerson={deletePerson}
-      />
+      <Persons persons={filteredPersons} handleDeletePerson={deletePerson} />
     </div>
   );
 };
