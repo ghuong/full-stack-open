@@ -60,18 +60,26 @@ const App = () => {
             flashMessage(`Updated ${updatedPerson.name}'s number`);
           })
           .catch((error) => {
+            flashMessage(error.response.data.error, true);
+            /*
             flashMessage(
               `Information of ${duplicatePerson.name} has already been removed from server`,
               true
             );
             setPersons(persons.filter((p) => p.id !== duplicatePerson.id));
+            */
           });
       }
     } else {
-      personService.create(newPerson).then((addedPerson) => {
-        setPersons(persons.concat(addedPerson));
-        flashMessage(`Added ${addedPerson.name}`);
-      });
+      personService
+        .create(newPerson)
+        .then((addedPerson) => {
+          setPersons(persons.concat(addedPerson));
+          flashMessage(`Added ${addedPerson.name}`);
+        })
+        .catch((error) => {
+          flashMessage(error.response.data.error, true);
+        });
     }
 
     setNewName("");
